@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.utils import timezone
 from datetime import timedelta
+from ..ride_events.ride_events_serializer import *
 
 class RideSerializer(serializers.ModelSerializer):
     User = get_user_model()

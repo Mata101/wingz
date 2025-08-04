@@ -24,7 +24,6 @@ class CustomUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
-        user.role = 'admin'
         user.save()
         return user
 
@@ -42,9 +41,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=40,db_comment="User's last name")
     email = models.CharField(max_length=64,unique=True, db_comment="User's email address")
     phone_number = models.CharField(max_length=20,db_comment="User's phone number")
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
-
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number', 'role']

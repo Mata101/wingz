@@ -81,10 +81,10 @@ To find the number of rides that lasted more than 1 hour, grouped by driver and 
 ```
 SELECT 
     TO_CHAR(r.pickup_time, 'YYYY-MM') AS Month,
-    ride.id_driver As Driver,
+    user.first_name As Driver,
     COUNT(*) AS "Trips > 1 hour"
 FROM 
-    ride_app_ride ride
+    ride_app_ride ride,ride_app_user user
 JOIN 
     ride_app_ride_event pickup_event 
     ON ride.id_ride = pickup_event.id_ride_id 
@@ -95,6 +95,7 @@ JOIN
     AND dropoff_event.description = 'Status changed to dropoff'
 WHERE 
     EXTRACT(EPOCH FROM (dropoff_event.created_at - pickup_event.created_at)) > 3600
+    AND ride.id_driver = user.id_user
 GROUP BY 
     Month, Driver
 ```
