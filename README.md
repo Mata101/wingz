@@ -68,10 +68,27 @@ Creating New Ride<br>
 * Sorting using nearest pickup location based on inputted position(longtitude,latitude)<br>
 **curl -X GET "http://127.0.0.1:8000/api/rides/?lat=37.7749&lng=-122.4194" -H "Content-Type: application/json" -H "Authorization: Token This_is_a_sample_token_7da01819b088b7be9a8b46b4b0e4b307421d8300"**<br><br>
 
-* Sorting using asc or desc pickup location<br>
+* Sorting using asc or desc pickup location distance from the given position<br>
 **curl -X GET "http://127.0.0.1:8000/api/rides/?lat=37.7749&lng=-122.4194&distance=desc" -H "Content-Type: application/json" -H "Authorization: Token This_is_a_sample_token_7da01819b088b7be9a8b46b4b0e4b307421d8300"**<br><br>
 
-* Sorting using both pickup time and pickup location<br>
+* Sorting using both pickup time and pickup location distance from the given position<br>
 **curl -X GET "http://127.0.0.1:8000/api/rides/?lat=37.7749&lng=-122.4194&distance=desc&pickup_time=asc" -H "Content-Type: application/json" -H "Authorization: Token This_is_a_sample_token_7da01819b088b7be9a8b46b4b0e4b307421d8300"**<br><br>
 
+## 🧾 SQL Report: Trips (> 1 Hour) by Driver and Month
 
+To find the number of rides that lasted more than 1 hour, grouped by driver and by month, use this raw SQL query:<br>
+
+```sql
+SELECT 
+    TO_CHAR(pickup_time, 'YYYY-MM') AS Month,
+    id_driver AS Driver,
+    COUNT(*) AS "Count of Trips > 1hr"
+FROM 
+    ride_app_ride
+WHERE 
+    dropoff_point IS NOT NULL
+    AND pickup_time IS NOT NULL
+    AND dropoff_time IS NOT NULL
+    AND EXTRACT(EPOCH FROM (dropoff_time - pickup_time)) > 3600
+GROUP BY 
+    Month, Driver
