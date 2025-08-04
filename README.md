@@ -78,17 +78,21 @@ Creating New Ride<br>
 
 To find the number of rides that lasted more than 1 hour, grouped by driver and by month, use this raw SQL query:<br>
 
-```sql
 SELECT 
-    TO_CHAR(pickup_time, 'YYYY-MM') AS Month,
-    id_driver AS Driver,
-    COUNT(*) AS "Count of Trips > 1hr"
+    TO_CHAR(r.pickup_time, 'YYYY-MM') AS Month,
+    ride.id_driver As Driver,
+    COUNT(*) AS "Trips > 1 hour"
 FROM 
-    ride_app_ride
+    ride_app_ride ride
+JOIN 
+    ride_app_ride_event pickup_event 
+    ON ride.id_ride = pickup_event.id_ride_id 
+    AND pickup_event.description = 'Status changed to pickup'
+JOIN 
+    ride_app_ride_event dropoff_event 
+    ON ride.id_ride = dropoff_event.id_ride_id 
+    AND dropoff_event.description = 'Status changed to dropoff'
 WHERE 
-    dropoff_point IS NOT NULL
-    AND pickup_time IS NOT NULL
-    AND dropoff_time IS NOT NULL
-    AND EXTRACT(EPOCH FROM (dropoff_time - pickup_time)) > 3600
+    EXTRACT(EPOCH FROM (dropoff_event.created_at - pickup_event.created_at)) > 3600
 GROUP BY 
     Month, Driver
