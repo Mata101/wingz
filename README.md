@@ -1,22 +1,22 @@
-# Installation\n
-#000000  Install Python version 3.10.18 or create a virtual environment\n
-#000000 Install PostgreSQL 16.1\n
-#000000 Install Django 5.2.4 **pip install Django**\n
-#000000 Run **pip install requirements.txt** inside this directory.\n\n
+# Installation<br>
+#000000  Install Python version 3.10.18 or create a virtual environment<br>
+#000000 Install PostgreSQL 16.1<br>
+#000000 Install Django 5.2.4 **pip install Django**<br>
+#000000 Run **pip install requirements.txt** inside this directory.<br><br>
 
-# Setup\n
-#000000 Create a PostgreSQL user **sudo -u postgres createuser -s $USER**\n
-#000000 Login to postgres using the new user **sudo -u postgres psql postgres**\n
-#000000 Create database user and database, you can change it to your preferred user, password, and database name. Just make sure to change the settings.py file configuration for the database engine.\n
+# Setup<br>
+#000000 Create a PostgreSQL user **sudo -u postgres createuser -s $USER**<br>
+#000000 Login to postgres using the new user **sudo -u postgres psql postgres**<br>
+#000000 Create database user and database, you can change it to your preferred user, password, and database name. Just make sure to change the settings.py file configuration for the database engine.<br>
   **CREATE ROLE wingz LOGIN PASSWORD 'pass';
-    CREATE DATABASE ride_app_db WITH OWNER = wingz;**\n
-#000000 Stop the current running PostgreSQL service and run it in a Docker container to use PostGIS (this extension is for geographic point fields) and to make sure that you're using the exact port.\n
-  **sudo docker run --name postgis   -e POSTGRES_USER=wingz   -e POSTGRES_PASSWORD=pass   -e POSTGRES_DB=ride_app_db   -p 5432:5432   -d postgis/postgis:16-3.4**\n
-*Note: If you can install PostGIS on your device, it's okay; this step is for devices or current PostgreSQL versions that are not compatible with PostGIS. Or any problem installing PostGIS*\n
-#000000 Migrate database **python manage.py makemigrations && python manage.py migrate** \n
+    CREATE DATABASE ride_app_db WITH OWNER = wingz;**<br>
+#000000 Stop the current running PostgreSQL service and run it in a Docker container to use PostGIS (this extension is for geographic point fields) and to make sure that you're using the exact port.<br>
+  **sudo docker run --name postgis   -e POSTGRES_USER=wingz   -e POSTGRES_PASSWORD=pass   -e POSTGRES_DB=ride_app_db   -p 5432:5432   -d postgis/postgis:16-3.4**<br>
+*Note: If you can install PostGIS on your device, it's okay; this step is for devices or current PostgreSQL versions that are not compatible with PostGIS. Or any problem installing PostGIS*<br>
+#000000 Migrate database **python manage.py makemigrations && python manage.py migrate** <br>
 
-# Usage\n
-#000000 Run the project **python manage.py runserver**\n
+# Usage<br>
+#000000 Run the project **python manage.py runserver**<br>
 #000000 Create a superuser as admin **python manage.py createsuperuser**
 #000000 Login as superuser to get token as credentials for new request **curl -X POST http://127.0.0.1:8000/api-token-auth/   -H "Content-Type: application/json"   -d '{"username": "your_username_here", "password": "your_password"}'**
 *Note: that only user with admin role is permitted to access API endpoints*
