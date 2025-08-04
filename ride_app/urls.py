@@ -1,4 +1,6 @@
-from .views import *
+from .users.user_view import UserViewSet
+from .rides.rides_view import RideViewSet
+from .ride_events.ride_events_view import RideEventViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 from django.urls import path,include
