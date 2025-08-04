@@ -96,4 +96,5 @@ JOIN
 WHERE 
     EXTRACT(EPOCH FROM (dropoff_event.created_at - pickup_event.created_at)) > 3600
 GROUP BY 
-    Month, Driver```
+    Month, Driver
+```
