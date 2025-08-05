@@ -8,7 +8,7 @@
 * Create a PostgreSQL user **sudo -u postgres createuser -s $USER**<br>
 * Login to postgres using the new user **sudo -u postgres psql postgres**<br>
 * Create database user and database, you can change it to your preferred user, password, and database name. Just make sure to change the settings.py file configuration for the database engine.<br>
-  **CREATE ROLE wingz LOGIN PASSWORD 'pass';
+  **CREATE ROLE wingz LOGIN PASSWORD 'pass';<br>
     CREATE DATABASE ride_app_db WITH OWNER = wingz;**<br>
 * Stop the current running PostgreSQL service and run it in a Docker container to use PostGIS (this extension is for geographic point fields) and to make sure that you're using the exact port.<br>
   **sudo docker run --name postgis   -e POSTGRES_USER=wingz   -e POSTGRES_PASSWORD=pass   -e POSTGRES_DB=ride_app_db   -p 5432:5432   -d postgis/postgis:16-3.4**<br>
